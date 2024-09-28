@@ -1,0 +1,66 @@
+.hero {
+    align-items: center;
+    background-color: #f8f9fa;
+    padding-left: 30px;
+  }
+
+  .hero img {
+    width: 100%;
+  }
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  .hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+  .hero button {
+    margin-right: 10px;
+  }
+
+  .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff6f61;
+  }
+  .navbar-nav .nav-link {
+    font-size: 1rem;
+    margin-right: 20px;
+  }
+  .nav-icons {
+    font-size: 1.2rem;
+    margin-left: 10px;
+  }
+  .search-bar {
+    flex-grow: 1;
+    max-width: 400px;
+    margin-right: 20px;
+  }
+  .btn-search {
+    border: none;
+    background-color: #ff6f61;
+    color: white;
+    border-radius: 0;
+    padding: 8px 15px;
+  }
+
+  .product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+  .product-card:hover {
+    transform: scale(1.05);
+  }
+  .product-image {
+    height: 300px;
+    width:600 ;
+    object-fit: contain;
+  }
+  .product-price {
+    color: #ff6f61;
+    font-weight: bold;
+  }

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/4dae97c793.js" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="/images/hub.png" type="image/x-icon">
+    <title>Your Cart - TechAlpha Courses</title>
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .cart {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .cart-item {
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .remove-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        .cart-footer {
+            padding-top: 10px;
+            text-align: right;
+        }
+        @media (max-width: 768px) {
+            .cart-footer h2 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Bootstrap Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">TechAlpha Courses</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">
+                                <i class="fas fa-home"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/index">
+                                <i class="fas fa-book-open"></i> Courses
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/cart">
+                                <i class="fas fa-shopping-cart"></i> Cart (<%= cart.length %>)
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="cart container">
+        <h1>Your Cart</h1>
+
+        <% if (cart.length > 0) { %>
+            <div class="row">
+                <% cart.forEach(product => { %> 
+                    <% if (product) { %> <!-- Check if product is defined -->
+                        <div class="col-12 mb-3">
+                            <div class="cart-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h2><%= product.name %></h2>
+                                    <p>NGN<%= product.price %></p>
+                                </div>
+                                <form action="/remove-from-cart" method="POST">
+                                    <input type="hidden" name="courseId" value="<%= product.id %>"> <!-- Ensure this is correct -->
+                                    <button type="submit" class="btn remove-btn">Remove</button>
+                                </form>
+                            </div>
+                        </div>
+                    <% } %>
+                <% }); %>
+            </div>
+
+            <div class="cart-footer">
+                <h2>Total: NGN<%= cart.reduce((total, product) => {
+                    return product && product.price ? total + product.price : total;
+                }, 0) %></h2>
+                <a href="/checkout" class="btn btn-primary">
+                    <i class="fas fa-credit-card"></i> Proceed to Checkout
+                </a>
+            </div>
+        <% } else { %>
+            <div class="empty-cart text-center">
+                <p>Your cart is empty.</p>
+                <a href="/index" class="btn btn-primary">
+                    <i class="fas fa-book-open"></i> Browse Courses
+                </a>
+            </div>
+        <% } %>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.add-to-cart-btn').on('click', function(e) {
+                e.preventDefault();
+                const productId = $(this).data('product-id');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/add-to-cart',
+                    data: { productId: productId },
+                    success: function(response) {
+                        if (response.success) {
+                            alert('Item added to cart!');
+                        } else {
+                            alert('Failed to add item to cart.');
+                        }
+                    },
+                    error: function(err) {
+                        console.error('Error adding to cart:', err);
+                        alert('An error occurred while adding to cart.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

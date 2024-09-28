@@ -1,0 +1,192 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Courses</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="/images/hub.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
+    <script src="https://kit.fontawesome.com/4dae97c793.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #121212;
+            color: #f0f0f0;
+        }
+
+        .navbar, .navbar-dark .navbar-nav .nav-link {
+            background-color: #212529;
+        }
+
+        h2 {
+            color: #f8f9fa;
+        }
+
+        .card {
+            background-color: rgba(0, 0, 0, 0.75); /* Semi-transparent black for "nylon black watery" effect */
+            border: none;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border-radius: 10px;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(255, 255, 255, 0.15);
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+
+        .price-tag {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #50c878; /* Rich emerald green for a professional touch */
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: #dcdcdc;
+        }
+
+        .course-icon {
+            color: #0dcaf0; /* Cyan for accent */
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .add-to-cart-btn {
+            background-color: #17a2b8; /* Light cyan */
+            border: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #138496; /* Darker cyan on hover */
+        }
+
+        .card-footer {
+            background-color: rgba(255, 255, 255, 0.05); /* Light transparent footer */
+            border-top: none;
+        }
+
+        /* Custom scroll bar for a modern touch */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #0dcaf0;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="fas fa-home"></i> TechAlpha Courses</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i> Cart <span id="cart-count" class="badge badge-light">0</span></a>
+                    </li>
+                    <% if (admin) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/dashboard"><i class="fas fa-user-shield"></i> Admin Dashboard</a>
+                        </li>
+                    <% } %>
+                    <% if (user) { %>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </li>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-success" href="/register"><i class="fas fa-user-plus"></i> Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-info" href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-5">
+        <h2 class="text-center mb-4">Available Courses</h2>
+        <div class="row">
+            <% products.forEach(course => { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card text-left h-100">
+                        <div class="card-body">
+                            <i class="<%= course.iconClass %> fa-3x mb-3 course-icon"></i>
+                            <h5 class="card-title"><%= course.name %></h5>
+                            <p class="price-tag">NGN <%= course.price %></p>
+                            <p class="card-text"><%= course.description %></p>
+                            <p class="card-text">Duration: <%= course.duration %> weeks</p>
+                            <p class="card-text">Class Type: <%= course.classType %></p>
+                            <p class="card-text">Class Time: <%= course.classTime %></p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn add-to-cart-btn" data-product-id="<%= course.id %>">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.add-to-cart-btn').on('click', function(e) {
+                e.preventDefault();
+                const productId = $(this).data('product-id');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/add-to-cart',
+                    data: { productId: productId },
+                    success: function(response) {
+                        if (response.success) {
+                            const cartCount = $('#cart-count');
+                            cartCount.text(parseInt(cartCount.text()) + 1);
+                        } else {
+                            console.error('Failed to add item to cart.');
+                        }
+                    },
+                    error: function(err) {
+                        console.error('Error adding to cart:', err);
+                    }
+                });
+            });
+        });
+    </script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

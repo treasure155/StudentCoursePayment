@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - TechAlpha Courses</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="shortcut icon" href="/images/hub.png" type="image/x-icon">
+
+</head>
+<body>
+    <div class="container">
+        <h2>Checkout</h2>
+        
+        <!-- Display the user's cart -->
+        <h3>Your Cart</h3>
+        <ul>
+            <% cart.forEach(function(item) { %>
+                <li><%= item.name %> - <%= item.price %> Naira</li>
+            <% }) %>
+        </ul>
+        <p>Total: <strong id="totalAmount"><%= cart.reduce((acc, item) => acc + item.price, 0) %> Naira</strong></p>
+        
+        
+        <!-- Coupon Code Section -->
+        <div class="form-group">
+            <label for="coupon">Coupon Code</label>
+            <input type="text" name="coupon" id="coupon" class="form-control" placeholder="Enter coupon code">
+            <button type="button" class="btn btn-secondary mt-2" id="applyCoupon">Apply Coupon</button>
+            <p id="discountMessage" class="text-success mt-2" style="display:none;">
+                Coupon applied successfully! Discount: <span id="discountValue"></span>
+            </p>
+            <p id="invalidCouponMessage" class="text-danger mt-2" style="display:none;">Invalid coupon code!</p>
+        </div>
+
+        <form action="/pay" method="POST">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" name="name" id="name" class="form-control" value="<%= user.name %>" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" class="form-control" value="<%= user.email %>" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" name="address" id="address" class="form-control" value="<%= user.address %>" required>
+            </div>
+            <div class="form-group">
+                <label for="courses">Selected Courses</label>
+                <ul>
+                    <% cart.forEach(function(course) { %>
+                        <li><%= course.name %></li>
+                    <% }) %>
+                </ul>
+                <input type="hidden" name="courses" value="<%= cart.map(course => course.name).join(', ') %>">
+            </div>
+            <div class="form-group">
+                <label for="courseDuration">Course Duration</label>
+                <select name="courseDuration" id="courseDuration" class="form-control" required>
+                    <option value="3 months">3 months</option>
+                    <option value="6 months">6 months</option>
+                    <option value="1 year">1 year</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="classType">Class Type</label>
+                <select name="classType" id="classType" class="form-control" required>
+                    <option value="Virtual">Virtual</option>
+                    <option value="In-person">In-person</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="text" name="amount" id="amount" class="form-control" value="<%= cart.reduce((acc, item) => acc + item.price, 0) %>" readonly required>
+            </div>
+
+            <!-- Hidden field for discounted amount -->
+            <input type="hidden" name="discountedAmount" id="discountedAmount" value="<%= cart.reduce((acc, item) => acc + item.price, 0) %>">
+
+            <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+        </form>
+    </div>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('applyCoupon').addEventListener('click', function() {
+            const couponInput = document.getElementById('coupon').value;
+            const totalAmountElem = document.getElementById('totalAmount');
+            const amountInput = document.getElementById('amount');
+            const discountedAmountInput = document.getElementById('discountedAmount');
+            const discountMessage = document.getElementById('discountMessage');
+            const invalidCouponMessage = document.getElementById('invalidCouponMessage');
+            const discountValueElem = document.getElementById('discountValue');
+
+            let totalAmount = <%= cart.reduce((acc, item) => acc + item.price, 0) %>;
+
+            if (couponInput === 'TECHALPHA') {
+                const discount = totalAmount * 0.1; // Apply 10% discount
+                const discountedAmount = totalAmount - discount;
+
+                totalAmountElem.textContent = `${discountedAmount} Naira`;
+                amountInput.value = discountedAmount;
+                discountedAmountInput.value = discountedAmount;
+
+                discountValueElem.textContent = `${discount} Naira (10% off)`;
+
+                discountMessage.style.display = 'block';
+                invalidCouponMessage.style.display = 'none';
+            } else {
+                discountMessage.style.display = 'none';
+                invalidCouponMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

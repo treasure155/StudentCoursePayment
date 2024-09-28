@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="shortcut icon" href="/images/hub.png" type="image/x-icon">
+    <title>TechAlpha Courses</title>
+</head>
+<body class="heropage">
+    <div class="container d-flex align-items-center justify-content-center text-white" style="height: 100vh;">
+        <div class="text-center">
+            <h1 class="heroheader">TechAlpha Courses</h1>
+            <p class="p">Join our comprehensive courses to enhance your skills and advance your career in technology.</p>
+            
+            <% if (session.userId) { %>
+                <a href="/dashboard" class="btn btn-success mr-2">Dashboard</a>
+                <a href="/index" class="btn btn-info">Courses</a>
+                <a href="/logout" class="btn btn-info">Logout</a>
+            <% } else { %>
+                <a href="/register" class="btn btn-success mr-2">Register</a>
+                <a href="/login" class="btn btn-info">Login</a>
+            <% } %>
+
+            <% if (session.adminId) { %>
+                <a href="/admin/dashboard" class="btn btn-warning">Admin Dashboard</a>
+            <% } else { %>
+                <a href="/admin/adminLogin" class="btn btn-danger">Admin Login</a>
+            <% } %>
+        </div>
+    </div>
+    <footer class="text-center text-white mt-auto py-3 bg-dark">
+        <p>&copy; <%= new Date().getFullYear() %> TechAlpha Hub</p>
+    </footer>
+
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
