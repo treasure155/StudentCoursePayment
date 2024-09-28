@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,9 +12,10 @@
     <style>
         body {
             padding: 20px;
-            background-color: #121212; /* Silky black background */
-            color: #f1f1f1; /* Light text for contrast */
+            background-color: #121212;
+            color: #f1f1f1;
         }
+
         header {
             background-color: #007bff;
             color: white;
@@ -21,51 +23,65 @@
             border-radius: 8px;
             margin-bottom: 20px;
         }
+
         header h1 {
             margin: 0;
         }
+
         .card {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             border-radius: 10px;
-            background-color: #1f1f1f; /* Darker card background */
+            background-color: #1f1f1f;
             color: #f1f1f1;
         }
+
         .profile-section i {
             font-size: 70px;
             color: #6c757d;
         }
+
         .logout-link {
             color: white;
             font-weight: bold;
         }
+
         .logout-link:hover {
             color: #f8d7da;
         }
-        .table th, .table td {
+
+        .table th,
+        .table td {
             vertical-align: middle;
         }
+
         .table thead {
             background-color: #343a40;
             color: #ffffff;
         }
+
         .btn-primary {
             background-color: #007bff;
             border-color: #007bff;
         }
+
         .btn-primary:hover {
             background-color: #0056b3;
         }
+
         /* Responsive Styles */
         @media (max-width: 768px) {
             header {
                 font-size: 1.2rem;
             }
+
             .table-responsive {
                 overflow-x: auto;
             }
+
             .table {
                 font-size: 0.85rem;
             }
+
             h1 {
                 font-size: 1.5rem;
             }
@@ -75,35 +91,48 @@
             body {
                 padding: 10px;
             }
+
             header h1 {
                 font-size: 1.2rem;
             }
+
             .card {
                 margin-bottom: 15px;
             }
-            .table thead {
-                display: none; /* Hide the table headers on small screens */
+
+            .table-responsive {
+                overflow-x: auto;
             }
-            .table td {
+
+            /* Keep the table headers visible */
+            .table {
                 display: block;
-                text-align: right;
-                padding-left: 50%;
-                position: relative;
-                font-size: 0.85rem;
+                overflow-x: auto;
+                white-space: nowrap;
             }
-            .table td::before {
-                content: attr(data-label);
-                position: absolute;
-                left: 0;
-                width: 45%;
-                padding-left: 10px;
+
+            .table th,
+            .table td {
                 text-align: left;
-                font-weight: bold;
-                color: #ffffff;
+                padding: 12px;
+            }
+
+            /* Adjust the card layout */
+            .card h5 {
+                font-size: 1rem;
+            }
+
+            .card-text {
+                font-size: 0.9rem;
+            }
+
+            .table td::before {
+                font-size: 0.85rem;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header class="d-flex justify-content-between align-items-center">
@@ -190,4 +219,6 @@
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
+ 
